@@ -30,11 +30,7 @@ const entrySchema = new mongoose.Schema({
 
 const Entry = mongoose.model('Entry', entrySchema);
 
-app.use(express.static(path.resolve(__dirname, 'Frontend', 'build')));
 
-app.get('/', (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'Frontend', 'build', 'index.html'));
-});
 
 app.get('/entries', async (req, res) => {
   try {
