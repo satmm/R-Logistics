@@ -29,7 +29,7 @@ const AdminPage = () => {
 
   const fetchEntries = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/entries');
+      const response = await axios.get('https://r-logistics-p8zp.vercel.app/entries');
       setEntries(response.data);
     } catch (error) {
       console.error('Error fetching entries:', error);
@@ -56,10 +56,10 @@ const AdminPage = () => {
     try {
       console.log('Submitting form with data:', formData); // Debug log
       if (isEdit) {
-        await axios.put(`${window.location.origin}/edit-entry/${formData._id}`, formData);
+        await axios.put(`https://r-logistics-p8zp.vercel.app/edit-entry/${formData._id}`, formData);
         setIsEdit(false);
       } else {
-        await axios.post('${window.location.origin}/add-entry', formData);
+        await axios.post('https://r-logistics-p8zp.vercel.app/add-entry', formData);
       }
       setShowForm(false);
       fetchEntries();
@@ -80,7 +80,7 @@ const AdminPage = () => {
   const handleDelete = async () => {
     try {
       if (deleteId) {
-        await axios.delete(`${window.location.origin}/delete-entry/${deleteId}`);
+        await axios.delete(`https://r-logistics-p8zp.vercel.app/delete-entry/${deleteId}`);
         fetchEntries();
         setShowDeleteConfirm(false);
         setDeleteId(null);
