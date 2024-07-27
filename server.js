@@ -1,18 +1,21 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-require('dotenv').config(); // Add this line
-const path = require("path");
+require('dotenv').config();
+const path = require('path');
+
+console.log('MONGODB_URI:', process.env.MONGODB_URI); // Log the URI for debugging
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Use environment variable for MongoDB URI
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => console.log('MongoDB Atlas connected')).catch(err => console.error('MongoDB connection error:', err));
+  useUnifiedTopology: true,
+})
+  .then(() => console.log('MongoDB Atlas connected'))
+  .catch((err) => console.error('MongoDB connection error:', err));
 
 const entrySchema = new mongoose.Schema({
   driverName: String,
@@ -22,16 +25,16 @@ const entrySchema = new mongoose.Schema({
   advance: Number,
   cngCost: Number,
   driverSalary: Number,
-  remark: String
+  remark: String,
 });
 
 const Entry = mongoose.model('Entry', entrySchema);
 
-app.get("/", (req, res) => {
-  app.use(express.static(path.resolve(__dirname, "Frontend", "build")));
-  res.sendFile(path.resolve(__dirname, "Frontend", "build", "index.html"));
-  });
-  
+app.use(express.static(path.resolve(__dirname, 'Frontend', 'build')));
+
+app.get('/', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'Frontend', 'build', 'index.html'));
+});
 
 app.get('/entries', async (req, res) => {
   try {

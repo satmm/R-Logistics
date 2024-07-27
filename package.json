@@ -1,5 +1,18 @@
 {
+  "name": "R-Logistics",
+  "version": "1.0.0",
+  "description": "store records",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
   "dependencies": {
-    "path": "^0.12.7"
-  }
+    "express": "^4.17.1",
+    "mongoose": "^5.12.3",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {},
+  "author": "satmm",
+  "license": "ISC"
 }

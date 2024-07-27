@@ -29,7 +29,7 @@ const AdminPage = () => {
 
   const fetchEntries = async () => {
     try {
-      const response = await axios.get('${window.location.origin}/entries');
+      const response = await axios.get('http://localhost:5000/entries');
       setEntries(response.data);
     } catch (error) {
       console.error('Error fetching entries:', error);
