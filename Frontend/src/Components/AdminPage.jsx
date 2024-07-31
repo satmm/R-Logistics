@@ -10,7 +10,7 @@ const AdminPage = () => {
   const [formData, setFormData] = useState({
     driverName: '',
     vehicleNumber: '',
-    date: new Date().toISOString().substring(0, 10), // Today's date
+    date: new Date().toISOString().substring(0, 10),
     present: true,
     advance: 0,
     cngCost: 0,
@@ -22,7 +22,7 @@ const AdminPage = () => {
     vehicleRate: 0,
     remark: ''
   });
-  
+
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedEntries, setSelectedEntries] = useState([]);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -42,7 +42,11 @@ const AdminPage = () => {
   const fetchEntries = async () => {
     try {
       const response = await axios.get('http://localhost:5000/entries');
-      setEntries(response.data);
+      const formattedEntries = response.data.map(entry => ({
+        ...entry,
+        date: new Date(entry.date).toLocaleDateString('en-GB')
+      }));
+      setEntries(formattedEntries);
     } catch (error) {
       console.error('Error fetching entries:', error);
     }
@@ -67,7 +71,6 @@ const AdminPage = () => {
       });
     }
   };
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -85,7 +88,6 @@ const AdminPage = () => {
       console.error('Error submitting form:', error);
     }
   };
-  
 
   const handleEdit = (entry) => {
     setFormData(entry);
@@ -108,7 +110,7 @@ const AdminPage = () => {
     setFormData({
       driverName: '',
       vehicleNumber: '',
-      date: new Date().toISOString().substring(0, 10), // Reset to today's date
+      date: new Date().toISOString().substring(0, 10),
       present: true,
       advance: 0,
       cngCost: 0,
@@ -169,12 +171,14 @@ const AdminPage = () => {
   return (
     <div className="admin-container">
       <div className="header-buttons">
-        <button className="button-33" onClick={() => {
-          setShowForm(true);
-          resetForm();
-        }}>
-          <FaPlus /> Add Entry
-        </button>
+        {selectedEntries.length === 0 && (
+          <button className="button-33" onClick={() => {
+            setShowForm(true);
+            resetForm();
+          }}>
+            <FaPlus /> Add Entry
+          </button>
+        )}
         <button className="button-33" onClick={downloadCSV}>
           <FaDownload /> Download
         </button>
@@ -226,6 +230,7 @@ const AdminPage = () => {
                 entry.vehicleNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 entry.date.includes(searchTerm)
               )
+              .sort((a, b) => new Date(b.date) - new Date(a.date)) // Sort entries by date, latest first
               .map(entry => (
                 <tr key={entry._id}>
                   <td>
@@ -289,15 +294,12 @@ const AdminPage = () => {
             </label>
             <label>
               Present:
-              <select
+              <input
+                type="checkbox"
                 name="present"
-                value={formData.present}
+                checked={formData.present}
                 onChange={handleChange}
-                required
-              >
-                <option value={true}>Yes</option>
-                <option value={false}>No</option>
-              </select>
+              />
             </label>
             <label>
               Advance:
@@ -306,7 +308,6 @@ const AdminPage = () => {
                 name="advance"
                 value={formData.advance}
                 onChange={handleChange}
-                required
               />
             </label>
             <label>
@@ -316,7 +317,6 @@ const AdminPage = () => {
                 name="cngCost"
                 value={formData.cngCost}
                 onChange={handleChange}
-                required
               />
             </label>
             <label>
@@ -326,7 +326,6 @@ const AdminPage = () => {
                 name="driverSalary"
                 value={formData.driverSalary}
                 onChange={handleChange}
-                required
               />
             </label>
             <label>
@@ -383,20 +382,19 @@ const AdminPage = () => {
                 onChange={handleChange}
               />
             </label>
-            <button type="submit">
-              {isEdit ? 'Update Entry' : 'Add Entry'}
-            </button>
-            <button type="button" onClick={() => setShowForm(false)}>
-              Cancel
-            </button>
+            <button type="submit">{isEdit ? 'Save Changes' : 'Add Entry'}</button>
+            <button type="button" onClick={() => setShowForm(false)}>Cancel</button>
           </form>
         </div>
       )}
       {showDeleteConfirm && (
-        <div className="confirmation-popup">
-          <p>Are you sure you want to delete the selected entry?</p>
-          <button onClick={handleDelete}>Yes</button>
-          <button onClick={() => setShowDeleteConfirm(false)}>No</button>
+        <div className="delete-confirm-popup">
+          <p>Are you sure you want to delete this entry?</p>
+          <button className="button-33" onClick={handleDelete}>Yes</button>
+          <button className="button-33" onClick={() => {
+            setShowDeleteConfirm(false);
+            setDeleteId(null);
+          }}>No</button>
         </div>
       )}
     </div>

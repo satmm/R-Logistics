@@ -14,8 +14,8 @@ mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-  .then(() => console.log('MongoDB Atlas connected'))
-  .catch((err) => console.error('MongoDB connection error:', err));
+.then(() => console.log('MongoDB Atlas connected'))
+.catch((err) => console.error('MongoDB connection error:', err));
 
 // Define the schema to match the fields in your form
 const entrySchema = new mongoose.Schema({
@@ -33,7 +33,6 @@ const entrySchema = new mongoose.Schema({
   vehicleRate: Number,
   remark: String
 });
-
 
 const Entry = mongoose.model('Entry', entrySchema);
 
@@ -75,7 +74,6 @@ app.post('/add-entry', async (req, res) => {
   }
 });
 
-
 // Route to update an existing entry
 app.put('/edit-entry/:id', async (req, res) => {
   console.log('PUT /edit-entry request received with data:', req.body); // Log the request data for debugging
@@ -113,5 +111,5 @@ app.get('*', (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
