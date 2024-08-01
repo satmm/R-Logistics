@@ -41,7 +41,7 @@ const AdminPage = () => {
 
   const fetchEntries = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/entries');
+      const response = await axios.get('https://backend-xi-taupe-70.vercel.app/entries');
       const formattedEntries = response.data.map(entry => ({
         ...entry,
         date: new Date(entry.date).toLocaleDateString('en-GB')
@@ -76,10 +76,10 @@ const AdminPage = () => {
     e.preventDefault();
     try {
       if (isEdit) {
-        await axios.put(`http://localhost:5000/edit-entry/${formData._id}`, formData);
+        await axios.put(`https://backend-xi-taupe-70.vercel.app/edit-entry/${formData._id}`, formData);
         setIsEdit(false);
       } else {
-        await axios.post('http://localhost:5000/add-entry', formData);
+        await axios.post('https://backend-xi-taupe-70.vercel.app/add-entry', formData);
       }
       setShowForm(false);
       fetchEntries();
@@ -97,7 +97,7 @@ const AdminPage = () => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:5000/delete-entry/${deleteId}`);
+      await axios.delete(`https://backend-xi-taupe-70.vercel.app/delete-entry/${deleteId}`);
       fetchEntries();
       setShowDeleteConfirm(false);
       setDeleteId(null);
