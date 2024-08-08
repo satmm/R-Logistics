@@ -66,6 +66,11 @@ const UserView = () => {
               <th>Advance</th>
               <th>CNG Cost</th>
               <th>Driver Salary</th>
+              <th>Shift To</th>
+              <th>Bill To</th>
+              <th>Party Rate</th>
+              <th>GST %</th>
+              <th>Vehicle Rate</th>
               <th>Remark</th>
             </tr>
           </thead>
@@ -75,10 +80,15 @@ const UserView = () => {
                 <td>{entry.driverName}</td>
                 <td>{entry.vehicleNumber}</td>
                 <td>{entry.date}</td>
-                <td>{entry.present ? 'Yes' : 'No'}</td>
+                <td>{entry.present}</td>
                 <td>{entry.advance}</td>
                 <td>{entry.cngCost}</td>
                 <td>{entry.driverSalary}</td>
+                <td>{entry.shiftTo}</td>
+                <td>{entry.billTo}</td>
+                <td>{entry.partyRate}</td>
+                <td>{entry.gstPercent}</td>
+                <td>{entry.vehicleRate}</td>
                 <td>{entry.remark}</td>
               </tr>
             ))}
