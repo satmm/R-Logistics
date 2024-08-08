@@ -49,11 +49,25 @@
     margin: 0 auto 20px auto;
 }
 
+.search-bar-container {
+    position: relative;
+    width: 100%;
+}
+
 .search-input {
-    padding: 10px;
+    padding: 10px 10px 10px 40px; /* Add left padding to make space for the icon */
     border: 1px solid #ccc;
     border-radius: 5px;
     width: 100%;
+}
+
+.search-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2em;
+    color: #aaa;
 }
 
 .search-input::placeholder {
@@ -239,4 +253,32 @@ th {
         overflow-y: auto;
         max-height: 90vh; /* Ensure form is scrollable on small screens */
     }
+}
+
+.pagination-controls {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.pagination-controls button {
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    font-size: 1em;
+    transition: background-color 0.2s;
+}
+
+.pagination-controls button:hover {
+    background-color: #0056b3;
+}
+
+.pagination-controls button:disabled {
+    background-color: #d6d6d6;
+    cursor: not-allowed;
+    color: #6c757d;
 }
